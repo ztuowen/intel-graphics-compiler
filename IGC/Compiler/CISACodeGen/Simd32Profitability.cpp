@@ -982,7 +982,7 @@ static bool hasLongStridedLdStInLoop(Function* F, LoopInfo* LI, WIAnalysis* WI) 
     // Collect innermost simple loop.
     for (auto I = LI->begin(), E = LI->end(); I != E; ++I) {
         auto L = *I;
-        if (!L->empty())
+        if (!L->getSubLoops().empty())
             continue;
         if (L->getNumBlocks() != 2)
             continue;

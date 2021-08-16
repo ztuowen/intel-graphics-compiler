@@ -118,7 +118,7 @@ bool AdvMemOpt::runOnFunction(Function& F) {
     for (auto I = LI->begin(), E = LI->end(); I != E; ++I)
         for (auto DFI = df_begin(*I), DFE = df_end(*I); DFI != DFE; ++DFI) {
             Loop* L = *DFI;
-            if (L->empty())
+            if (L->getSubLoops().empty())
                 InnermostLoops.push_back(L);
         }
 

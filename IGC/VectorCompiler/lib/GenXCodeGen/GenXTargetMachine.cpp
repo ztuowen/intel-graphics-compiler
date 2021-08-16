@@ -193,7 +193,7 @@ GenXTargetMachine::GenXTargetMachine(const Target &T, const Triple &TT,
                                  RM ? RM.getValue() : Reloc::Model::Static,
                                  CM ? CM.getValue() : CodeModel::Model::Small,
                                  OL),
-      Is64Bit(Is64Bit), Subtarget(TT, CPU.str(), FS.str()) {}
+      Is64Bit(Is64Bit), Subtarget(TT, CPU.str(), CPU.str(), FS.str()) {}
 
 GenXTargetMachine::~GenXTargetMachine() = default;
 

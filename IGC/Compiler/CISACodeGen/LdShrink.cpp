@@ -10,6 +10,7 @@ SPDX-License-Identifier: MIT
 #include <llvm/Pass.h>
 #include <llvm/IR/DataLayout.h>
 #include <llvm/IR/IRBuilder.h>
+#include <llvm/IR/DerivedTypes.h>
 #include <llvmWrapper/Support/Alignment.h>
 #include <llvm/Support/Debug.h>
 #include <llvm/Support/MathExtras.h>
@@ -75,9 +76,11 @@ unsigned LdShrink::getExtractIndexMask(LoadInst* LI) const {
     Type* Ty = VTy->getScalarType();
     // Skip non-BYTE addressable data types. So far, check integer types
     // only.
-    if (IntegerType * ITy = dyn_cast<IntegerType>(Ty))
-        if (!ITy->isPowerOf2ByteWidth())
+    if (IntegerType * ITy = dyn_cast<IntegerType>(Ty)) {
+        auto BitWidth = ITy->getBitWidth();
+        if (!((BitWidth > 7) && isPowerOf2_32(BitWidth)))
             return 0;
+    }
 
     unsigned Mask = 0; // Maxmimally 32 elements.
 

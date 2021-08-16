@@ -76,7 +76,7 @@ saveLLVMModule(Module *M, const std::string &OutputFile) {
 PointerType*
 getOrCreateOpaquePtrType(Module *M, const std::string &Name,
     unsigned AddrSpace) {
-  auto OpaqueType = M->getTypeByName(Name);
+  auto OpaqueType = StructType::getTypeByName(M->getContext(), Name);
   if (!OpaqueType)
     OpaqueType = StructType::create(M->getContext(), Name);
   return PointerType::get(OpaqueType, AddrSpace);

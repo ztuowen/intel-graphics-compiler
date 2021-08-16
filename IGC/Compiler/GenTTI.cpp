@@ -201,7 +201,7 @@ namespace llvm {
 
         // Skip non-simple loop.
         if (L->getNumBlocks() != 1) {
-            if (IGC_IS_FLAG_ENABLED(EnableAdvRuntimeUnroll) && L->empty()) {
+            if (IGC_IS_FLAG_ENABLED(EnableAdvRuntimeUnroll) && L->getSubLoops().empty()) {
                 auto countNonPHI = [](BasicBlock* BB) {
                     unsigned Total = BB->size();
                     unsigned PHIs = 0;

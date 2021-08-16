@@ -11,6 +11,7 @@ SPDX-License-Identifier: MIT
 #include "common/LLVMWarningsPush.hpp"
 #include <llvm/IR/Module.h>
 #include <llvm/IR/IRBuilder.h>
+#include <llvm/IR/DerivedTypes.h>
 #include "common/LLVMWarningsPop.hpp"
 #include "Probe/Assertion.h"
 
@@ -50,6 +51,6 @@ namespace IGC
             resourceDimTypeId == DIM_2D_TYPE || resourceDimTypeId == DIM_2D_ARRAY_TYPE ||
             resourceDimTypeId == DIM_3D_TYPE || resourceDimTypeId == DIM_CUBE_TYPE || resourceDimTypeId == DIM_CUBE_ARRAY_TYPE));
 
-        return module.getTypeByName(ResourceDimensionTypeName[resourceDimTypeId]);
+        return llvm::StructType::getTypeByName(module.getContext(), ResourceDimensionTypeName[resourceDimTypeId]);
     }
 }

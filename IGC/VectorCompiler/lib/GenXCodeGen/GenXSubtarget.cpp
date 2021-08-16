@@ -38,7 +38,7 @@ static cl::opt<bool>
                     cl::desc("Specify what surface should be used for stack"),
                     cl::init(true));
 
-void GenXSubtarget::resetSubtargetFeatures(StringRef CPU, StringRef FS) {
+void GenXSubtarget::resetSubtargetFeatures(StringRef CPU, StringRef TuneCPU, StringRef FS) {
 
   DumpRegAlloc = false;
   EmitCisa = false;
@@ -80,13 +80,13 @@ void GenXSubtarget::resetSubtargetFeatures(StringRef CPU, StringRef FS) {
   if (CPUName.empty())
     CPUName = "generic";
 
-  ParseSubtargetFeatures(CPUName, FS);
+  ParseSubtargetFeatures(CPUName, TuneCPU, FS);
 }
 
 GenXSubtarget::GenXSubtarget(const Triple &TT, const std::string &CPU,
-                             const std::string &FS)
-    : GenXGenSubtargetInfo(TT, CPU, FS), TargetTriple(TT) {
+                             const std::string &TC, const std::string &FS)
+    : GenXGenSubtargetInfo(TT, CPU, TC, FS), TargetTriple(TT) {
 
-  resetSubtargetFeatures(CPU, FS);
+  resetSubtargetFeatures(CPU, TC, FS);
 }
 

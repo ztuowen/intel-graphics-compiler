@@ -937,7 +937,7 @@ namespace //Anonymous
         {
             auto ndrangeStructName = "struct.ndrange_t";
             auto module = _deviceExecCall->getModule();
-            auto ndrangeTy = module->getTypeByName(ndrangeStructName);
+            auto ndrangeTy = llvm::StructType::getTypeByName(module->getContext(), ndrangeStructName);
             if (ndrangeTy == nullptr)
             {
                 //create struct type

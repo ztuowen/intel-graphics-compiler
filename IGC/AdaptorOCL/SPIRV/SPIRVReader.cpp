@@ -1610,7 +1610,7 @@ void SPIRVToLLVMDbgTran::transDbgInfo(SPIRVValue *SV, Value *V) {
             Line->getColumn(), scope, iat);
 
         if(scope && !isa<DIFile>(scope))
-            I->setDebugLoc(DebugLoc::get(Line->getLine(), Line->getColumn(),
+            I->setDebugLoc(DILocation::get(scope->getContext(), Line->getLine(), Line->getColumn(),
                 scope, iat));
     }
 }
@@ -2063,7 +2063,7 @@ SPIRVToLLVM::transType(SPIRVType *T) {
         auto name = isSubgroupAvcINTELTypeOpCode(OC) ?
             OCLSubgroupINTELTypeOpCodeMap::rmap(OC) :
             BuiltinOpaqueGenericTypeOpCodeMap::rmap(OC);
-        auto *pST = M->getTypeByName(name);
+        auto *pST = StructType::getTypeByName(M->getContext(), name);
         pST = pST ? pST : StructType::create(*Context, name);
 
         return mapType(T, PointerType::get(pST, getOCLOpaqueTypeAddrSpace(OC)));

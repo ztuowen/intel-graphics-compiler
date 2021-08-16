@@ -285,8 +285,8 @@ BasicBlock *GenXCFSimplification::processBranchedOverBlock(BasicBlock *BB)
         while (Restart) {
           Restart = false;
           for (auto ui = I->use_begin(), ue = I->use_end(); ui != ue; ++ui)
-            if (recursivelySimplifyInstruction(
-                  cast<Instruction>(ui->getUser()))) {
+            if (replaceAndRecursivelySimplify(
+                  cast<Instruction>(ui->getUser()), nullptr, nullptr, nullptr, nullptr, nullptr)) {
               Restart = true;
               break;
             }
