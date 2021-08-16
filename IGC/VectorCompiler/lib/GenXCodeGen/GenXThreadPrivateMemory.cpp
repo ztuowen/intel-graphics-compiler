@@ -140,10 +140,12 @@ public:
 
 // It collects all allocas and updates stack usage of each function
 void StackAnalysis::visitAllocaInst(AllocaInst &AI) {
-  Optional<uint64_t> AllocaSize = AI.getAllocationSizeInBits(m_DL);
-  IGC_ASSERT_MESSAGE(AllocaSize.hasValue(), "VLA is not expected");
+  Optional<llvm::TypeSize> AllocaSize = AI.getAllocationSizeInBits(m_DL);
 
-  m_ProcessedFs[AI.getFunction()].m_UsedSz += AllocaSize.getValue();
+  IGC_ASSERT_MESSAGE(AllocaSize, "No allocation size");
+  IGC_ASSERT_MESSAGE(!AllocaSize->isScalable(), "VLA is not expected");
+
+  m_ProcessedFs[AI.getFunction()].m_UsedSz += AllocaSize->getFixedSize();
 }
 
 // It initializes all function
